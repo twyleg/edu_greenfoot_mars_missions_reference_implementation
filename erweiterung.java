@@ -323,6 +323,108 @@ public class Erweiterung extends Rover
             Greenfoot.delay(1);
         }
     }
+
+    /**
+     * mission12 -  Pick up all markers on the left half of the map by using
+     *              the AND operator.
+     *              
+     */  
+    public void mission12()
+    {
+        while(markeVorhanden() == false && getX() < 8)
+        {
+            fahre();
+        }
+        
+        while(markeVorhanden() == true && getX() < 8)
+        {
+            entferneMarke();
+            fahre();
+        }
+        
+        drehe("links");
+        drehe("links");
+        
+        while(!isAtEdge())
+        {
+            fahre();
+        }
+        
+        drehe("links");
+        drehe("links");
+    }
+    
+    
+    /**
+     * mission13 -  Find an alterantive way around a steep hill and collect some markers.
+     *              
+     */    
+    public void moveAroundHill()
+    {
+        drehe("links");
+        fahre();
+        
+        drehe("rechts");
+        fahre();
+        fahre();
+        drehe("rechts");
+        
+        fahre();
+        drehe("links");
+    }
+    
+    public void approachMarkers()
+    {
+        while(markeVorhanden() == false)
+        {
+            if(huegelVorhanden("vorne") == false)
+            {
+                moveAroundHill();
+            }
+            fahre();
+        }
+    }
+    
+    public void removeMarkers()
+    {
+        while(markeVorhanden())
+        {
+            entferneMarke();
+            fahre();
+        }
+    }
+    
+    public void mission13()
+    {
+        approachMarkers();
+        removeMarkers();
+    }
+    
+    /**
+     * mission14 -  Find an alterantive way around a steep hill and collect some markers by using if-else.
+     *              
+     */
+    public void approachMarkersWithIfElse()
+    {
+        while(markeVorhanden() == false)
+        {
+            if(huegelVorhanden("vorne") == false)
+            {
+                moveAroundHill();
+            }
+            else
+            {
+                fahre();   
+            }
+        }
+    }
+    
+    public void mission14()
+    {
+        approachMarkersWithIfElse();
+        removeMarkers();
+    }
+    
     
     /**
      * Act - do whatever the Erweiterung wants to do. This method is called whenever
@@ -341,5 +443,8 @@ public class Erweiterung extends Rover
         //mission09();
         //mission10();
         //mission11();
+        //mission12();
+        //mission13();
+        //mission14();
     }    
 }
