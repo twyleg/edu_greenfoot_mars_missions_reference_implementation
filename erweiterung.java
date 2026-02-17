@@ -427,6 +427,187 @@ public class Erweiterung extends Rover
     
     
     /**
+     * mission15 - Collect all markers and avoid steep hills by bypassing them.
+     *              
+     */
+    public void moveUp()
+    {
+        if(getRotation() == 0)
+        {
+            drehe("links");
+            fahre();
+            drehe("links");
+        }
+        else
+        {
+            drehe("rechts");
+            fahre();
+            drehe("rechts");
+        }
+    }
+    
+    public void moveAlongRow()
+    {
+        if(markeVorhanden())
+        {
+            entferneMarke();
+        }
+        
+        if(huegelVorhanden("vorne"))
+        {
+            moveAroundHill();
+        }
+        else
+        {
+            fahre();
+        }
+    }
+    
+    public void moveAlongFinalRow()
+    {
+        while(getX() < 15)
+        {
+            moveAlongRow();
+        }
+    }
+    
+    public void mission15()
+    {   
+        while(getY() > 1)
+        {
+            while(getX() < 15)
+            {
+                moveAlongRow();
+            }
+            
+            moveUp();
+            
+            while(getX() > 0)
+            {
+                moveAlongRow();
+            }
+            
+            moveUp();
+        }     
+        
+        /*
+         * Quick and Dirty hack:
+         * Die oberste Zeile ist wegen eines Bugs in Greenfoot nicht
+         * befahrbar. Daher muss die vorletzte Zeile als letzte Zeile
+         * angesehen werden. Diese muss nochmal explizit abgefahren 
+         * werden.
+         */
+        moveAlongFinalRow();
+    }
+    
+        /**
+     * Mission 16 - Collect all markers and avoid steep hill formations
+     * with complex shapes by bypassing them.
+     */
+    public void moveAroundHillExtended()
+    {
+        drehe("links");
+     
+        int startY = getY();
+        
+        do{
+            
+            if(huegelVorhanden("vorne"))
+            {
+                drehe("links");
+            }
+            else if(huegelVorhanden("rechts"))
+            {
+                fahre();
+            } 
+            else
+            {
+                drehe("rechts");
+                fahre();
+            }
+            
+        }while(startY != getY());
+        
+        drehe("links");
+    }
+    
+    public void moveAlongRowExtended()
+    {
+        if(markeVorhanden())
+        {
+            entferneMarke();
+        }
+        
+        if(huegelVorhanden("vorne"))
+        {
+            moveAroundHillExtended();
+        }
+        else
+        {
+            fahre();
+        }
+    }
+    
+    public void moveAlongFinalRowExtended()
+    {
+        while(getX() < 15)
+        {
+            moveAlongRowExtended();
+        }
+    }
+    
+    public void mission16()
+    {
+        while(getY() > 1)
+        {
+            while(getX() < 15)
+            {
+                moveAlongRowExtended();
+            }
+            
+            moveUp();
+            
+            while(getX() > 0)
+            {
+                moveAlongRowExtended();
+            }
+            
+            moveUp();
+        } 
+        
+        /*
+         * Quick and Dirty hack:
+         * Die oberste Zeile ist wegen eines Bugs in Greenfoot nicht
+         * befahrbar. Daher muss die vorletzte Zeile als letzte Zeile
+         * angesehen werden. Diese muss nochmal explizit abgefahren 
+         * werden.
+         */
+        moveAlongFinalRowExtended();
+    }
+    
+    /**
+     * Mission 17 - Collect all markers and avoid steep hill formations
+     * with complex shapes by bypassing them.
+     */
+    public void mission17()
+    {
+        // Variable 'targetRotation' definieren und initilisieren
+        int targetRotation = 0;
+        
+        // Der Variable 'targetRotation' einen neuen Wert zuweisen
+        targetRotation = 180;
+        
+        // Die Variable 'targetRotation' auslesen und verwenden
+        setRotation(targetRotation);
+        System.out.println(targetRotation);
+        
+        // Der Variable 'targetRotation' einen neuen Wert zuweisen und verwenden
+        targetRotation = 270;
+        setRotation(targetRotation);
+        System.out.println(targetRotation);
+    }
+    
+    /**
      * Act - do whatever the Erweiterung wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
@@ -446,5 +627,8 @@ public class Erweiterung extends Rover
         //mission12();
         //mission13();
         //mission14();
+        //mission15();
+        //mission16();
+        mission17();
     }    
 }
