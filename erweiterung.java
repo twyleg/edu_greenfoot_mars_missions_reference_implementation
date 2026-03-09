@@ -607,6 +607,105 @@ public class Erweiterung extends Rover
         System.out.println(targetRotation);
     }
     
+    
+    /**
+     * Mission 18 - Functionality based on mission 16 but with additional info output.
+     */
+    
+    public void printInfo()
+    {
+        System.out.println(
+            "Position: (x=" + getX() + ", y=" + getY() + "), " +
+            "Rotation: angle=" + getRotation() + ", " +
+            "Obstacles: (front=" + huegelVorhanden("vorne") + ", left=" + huegelVorhanden("links") + ", right=" + huegelVorhanden("rechts") + ")"
+        );
+    }
+    
+    public void moveAroundHillExtendedWithInfoOutput()
+    {
+        drehe("links");
+     
+        int startY = getY();
+        
+        do{
+            
+            printInfo();
+            
+            if(huegelVorhanden("vorne"))
+            {
+                drehe("links");
+            }
+            else if(huegelVorhanden("rechts"))
+            {
+                fahre();
+            } 
+            else
+            {
+                drehe("rechts");
+                fahre();
+            }
+            
+        }while(startY != getY());
+        
+        drehe("links");
+    }
+    
+    public void moveAlongRowExtendedWithInfoOutput()
+    {
+        printInfo();
+        
+        if(markeVorhanden())
+        {
+            entferneMarke();
+        }
+        
+        if(huegelVorhanden("vorne"))
+        {
+            moveAroundHillExtendedWithInfoOutput();
+        }
+        else
+        {
+            fahre();
+        }
+    }
+    
+    public void moveAlongFinalRowExtendedWithInfoOutput()
+    {
+        while(getX() < 15)
+        {   
+            moveAlongRowExtendedWithInfoOutput();
+        }
+    }
+    
+    public void mission18()
+    {
+        while(getY() > 1)
+        {
+            while(getX() < 15)
+            {
+                moveAlongRowExtendedWithInfoOutput();
+            }
+            
+            moveUp();
+            
+            while(getX() > 0)
+            {
+                moveAlongRowExtendedWithInfoOutput();
+            }
+            
+            moveUp();
+        } 
+        
+        /*
+         * Quick and Dirty hack:
+         * Die oberste Zeile ist wegen eines Bugs in Greenfoot nicht
+         * befahrbar. Daher muss die vorletzte Zeile als letzte Zeile
+         * angesehen werden. Diese muss nochmal explizit abgefahren 
+         * werden.
+         */
+        moveAlongFinalRowExtended();
+    }
+    
     /**
      * Act - do whatever the Erweiterung wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
@@ -629,6 +728,7 @@ public class Erweiterung extends Rover
         //mission14();
         //mission15();
         //mission16();
-        mission17();
+        //mission17();
+        mission18();
     }    
 }
